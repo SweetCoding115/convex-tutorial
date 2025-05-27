@@ -40,8 +40,14 @@ export default function App() {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          await sendMessage({ user: NAME, body: newMessageText });
-          setNewMessageText("");
+          try {
+            await sendMessage({ user: NAME, body: newMessageText });
+            setNewMessageText("");
+          } catch (error) {
+            console.error("Failed to send message:", error);
+            // Consider showing user-friendly error message
+            alert("Failed to send message. Please try again.");
+          }
         }}
       >
         <input
