@@ -8,6 +8,13 @@ export const sendMessage = mutation({
   },
   handler: async (ctx, args) => {
     console.log("This TypeScript function is running on the server.");
+    // Validate input
+    if (!args.user.trim() || !args.body.trim()) {
+      throw new Error("User and message body cannot be empty");
+    }
+    if (args.body.length > 1000) {
+      throw new Error("Message too long");
+    }
     await ctx.db.insert("messages", {
       user: args.user,
       body: args.body,
